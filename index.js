@@ -5,7 +5,8 @@ app.set('port', (process.env.PORT || 5000))
 app.use(express.static(__dirname + '/public'))
 
 app.get('/', function(request, response) {
-  response.send('Hello World123!')
+  //response.send('Hello World123!');
+  response.sendfile('homepage.php');
 })
 
 app.listen(app.get('port'), function() {
@@ -16,14 +17,10 @@ app.listen(app.get('port'), function() {
 var http = require('http');
 var fs = require('fs');
 
-fs.readFile('homepage.php', function (err, html) {
-    /*if (err) {
-        throw err;
-    }*/
+var contents = fs.readFileSync('homepage.php');
     http.createServer(function(request, response) {
         response.writeHeader(200, {"Content-Type": "text/html"});
-        response.write(html);
+        response.write(contents);
         response.end();
     }).listen(8888, '127.0.0.1');
-});
 console.log('Server running at http://127.0.0.1:8888');
